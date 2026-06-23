@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pretty URL Love Letter</title>
+<style>
+body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;padding:20px}
+input,button{padding:10px;margin:5px}
+</style>
+</head>
+<body>
+<h1>Pretty URL Love Letter</h1>
+<p>Generate links like /#Rahul/Priya</p>
+<input id="from" placeholder="Your name">
+<input id="to" placeholder="Loved one's name">
+<button onclick="gen()">Generate</button>
+<p id="out"></p>
+<div id="letter"></div>
+<script>
+function gen(){
+ let f=document.getElementById('from').value.trim();
+ let t=document.getElementById('to').value.trim();
+ let url=location.origin+location.pathname+'#'+encodeURIComponent(f)+'/'+encodeURIComponent(t);
+ out.innerHTML='<a href="'+url+'">'+url+'</a>';
+}
+if(location.hash){
+ let parts=location.hash.substring(1).split('/');
+ if(parts.length===2){
+   let f=decodeURIComponent(parts[0]);
+   let t=decodeURIComponent(parts[1]);
+   document.getElementById('letter').innerHTML=`<h2>For ${t}</h2><p>Dear ${t}, you make every moment magical.</p><p>Love,<br>${f}</p>`;
+ }
+}
+</script>
+</body>
+</html>
