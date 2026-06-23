@@ -18,20 +18,46 @@ input,button{padding:10px;margin:5px}
 <p id="out"></p>
 <div id="letter"></div>
 <script>
-function gen(){
- let f=document.getElementById('from').value.trim();
- let t=document.getElementById('to').value.trim();
- let url=location.origin+location.pathname+'#'+encodeURIComponent(f)+'/'+encodeURIComponent(t);
- out.innerHTML='<a href="'+url+'">'+url+'</a>';
+function renderLetter() {
+  if (!location.hash) return;
+
+  let parts = location.hash.substring(1).split('/');
+
+  if (parts.length === 2) {
+    let from = decodeURIComponent(parts[0]);
+    let to = decodeURIComponent(parts[1]);
+
+    document.getElementById('letter').innerHTML = `
+      <h2>For ${to} ❤️</h2>
+      <p>
+        Dear ${to},<br><br>
+        Every moment with you makes my life brighter.
+        Thank you for being part of my journey.
+        <br><br>
+        Forever yours,<br>
+        ${from}
+      </p>
+    `;
+  }
 }
-if(location.hash){
- let parts=location.hash.substring(1).split('/');
- if(parts.length===2){
-   let f=decodeURIComponent(parts[0]);
-   let t=decodeURIComponent(parts[1]);
-   document.getElementById('letter').innerHTML=`<h2>For ${t}</h2><p>Dear ${t}, you make every moment magical.</p><p>Love,<br>${f}</p>`;
- }
+
+function gen() {
+  let from = document.getElementById('from').value.trim();
+  let to = document.getElementById('to').value.trim();
+
+  location.hash =
+    encodeURIComponent(from) +
+    '/' +
+    encodeURIComponent(to);
+
+  document.getElementById('out').innerHTML =
+    '<a href="' + location.href + '">' + location.href + '</a>';
+
+  renderLetter();
 }
+
+window.addEventListener('hashchange', renderLetter);
+renderLetter();
 </script>
 </body>
 </html>
